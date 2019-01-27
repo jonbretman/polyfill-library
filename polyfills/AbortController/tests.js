@@ -17,15 +17,15 @@ it('is not enumerable', function () {
 	proclaim.isNotEnumerable(window, 'AbortSignal');
 });
 
-describe('basic tests', () => {
+describe('basic tests', function() {
 
-  it('AbortSignal constructor', () => {
+  it('AbortSignal constructor', function() {
       const signal = new AbortSignal();
       proclaim.isFalse(signal.aborted);
       proclaim.isNull(signal.onabort);
   });
 
-  it('Request is patched', () => {
+  it('Request is patched', function() {
       const controller = new AbortController();
       const signal = controller.signal;
       let request = new Request('/', {signal});
@@ -34,12 +34,12 @@ describe('basic tests', () => {
   });
 
   it('abort during fetch', (done) => {
-      setTimeout(() => {
+      setTimeout(function() {
         done({name: 'fail'});
       }, 2000);
       const controller = new AbortController();
       const signal = controller.signal;
-      setTimeout(() => {
+      setTimeout(function() {
         controller.abort();
       }, 500);
       fetch('https://httpstat.us/200?sleep=1000', {signal}).then(function() {
@@ -50,15 +50,15 @@ describe('basic tests', () => {
       });
   });
 
-//   it('abort during fetch when Request has signal', () => {
+//   it('abort during fetch when Request has signal', function() {
 //     browser.url(TESTPAGE_URL);
 //     const res = browser.executeAsync(async (done) => {
-//       setTimeout(() => {
+//       setTimeout(function() {
 //         done({name: 'fail'});
 //       }, 2000);
 //       const controller = new AbortController();
 //       const signal = controller.signal;
-//       setTimeout(() => {
+//       setTimeout(function() {
 //         controller.abort();
 //       }, 500);
 //       try {
@@ -73,10 +73,10 @@ describe('basic tests', () => {
 //     expect(getJSErrors().length).toBe(0);
 //   });
 
-//   it('abort before fetch started', () => {
+//   it('abort before fetch started', function() {
 //     browser.url(TESTPAGE_URL);
 //     const res = browser.executeAsync(async (done) => {
-//       setTimeout(() => {
+//       setTimeout(function() {
 //         done({name: 'fail'});
 //       }, 2000);
 //       const controller = new AbortController();
@@ -93,14 +93,14 @@ describe('basic tests', () => {
 //     expect(getJSErrors().length).toBe(0);
 //   });
 
-//   it('abort before fetch started, verify no HTTP request is made', () => {
+//   it('abort before fetch started, verify no HTTP request is made', function() {
 //     const server = http.createServer((req, res) => {
 //       fail('fetch() made an HTTP request despite pre-aborted signal');
 //     }).listen(0);
 //     const boundListenPort = server.address().port;
 //     browser.url(TESTPAGE_URL);
 //     const res = browser.executeAsync(async (boundListenPort, done) => {
-//       setTimeout(() => {
+//       setTimeout(function() {
 //         done({name: 'fail'});
 //       }, 2000);
 //       const controller = new AbortController();
@@ -119,10 +119,10 @@ describe('basic tests', () => {
 //     server.close();
 //   });
 
-//   it('fetch without aborting', () => {
+//   it('fetch without aborting', function() {
 //     browser.url(TESTPAGE_URL);
 //     const res = browser.executeAsync(async (done) => {
-//       setTimeout(() => {
+//       setTimeout(function() {
 //         done({name: 'fail'});
 //       }, 2000);
 //       const controller = new AbortController();
@@ -138,10 +138,10 @@ describe('basic tests', () => {
 //     expect(getJSErrors().length).toBe(0);
 //   });
 
-//   it('fetch without signal set', () => {
+//   it('fetch without signal set', function() {
 //     browser.url(TESTPAGE_URL);
 //     const res = browser.executeAsync(async (done) => {
-//       setTimeout(() => {
+//       setTimeout(function() {
 //         done({name: 'fail'});
 //       }, 2000);
 //       try {
@@ -155,14 +155,14 @@ describe('basic tests', () => {
 //     expect(getJSErrors().length).toBe(0);
 //   });
 
-//   it('event listener fires "abort" event', () => {
+//   it('event listener fires "abort" event', function() {
 //     browser.url(TESTPAGE_URL);
 //     const res = browser.executeAsync(async (done) => {
-//       setTimeout(() => {
+//       setTimeout(function() {
 //         done({name: 'fail'});
 //       }, 2000);
 //       const controller = new AbortController();
-//       controller.signal.addEventListener('abort', () => {
+//       controller.signal.addEventListener('abort', function() {
 //         done('PASS');
 //       });
 //       controller.abort();
@@ -171,14 +171,14 @@ describe('basic tests', () => {
 //     expect(getJSErrors().length).toBe(0);
 //   });
 
-//   it('signal.aborted is true after abort', () => {
+//   it('signal.aborted is true after abort', function() {
 //     browser.url(TESTPAGE_URL);
 //     const res = browser.executeAsync(async (done) => {
-//       setTimeout(() => {
+//       setTimeout(function() {
 //         done('FAIL');
 //       }, 2000);
 //       const controller = new AbortController();
-//       controller.signal.addEventListener('abort', () => {
+//       controller.signal.addEventListener('abort', function() {
 //         if (controller.signal.aborted === true) {
 //           done('PASS');
 //         } else {
@@ -194,14 +194,14 @@ describe('basic tests', () => {
 //     expect(getJSErrors().length).toBe(0);
 //   });
 
-//   it('event listener doesn\'t fire "abort" event after removeEventListener', () => {
+//   it('event listener doesn\'t fire "abort" event after removeEventListener', function() {
 //     browser.url(TESTPAGE_URL);
 //     const res = browser.executeAsync(async (done) => {
-//       setTimeout(() => {
+//       setTimeout(function() {
 //         done('PASS');
 //       }, 200);
 //       const controller = new AbortController();
-//       const handlerFunc = () => {
+//       const handlerFunc = function() {
 //         done('FAIL');
 //       };
 //       controller.signal.addEventListener('abort', handlerFunc);
@@ -212,14 +212,14 @@ describe('basic tests', () => {
 //     expect(getJSErrors().length).toBe(0);
 //   });
 
-//   it('signal.onabort called on abort', () => {
+//   it('signal.onabort called on abort', function() {
 //     browser.url(TESTPAGE_URL);
 //     const res = browser.executeAsync(async (done) => {
-//       setTimeout(() => {
+//       setTimeout(function() {
 //         done('FAIL');
 //       }, 200);
 //       const controller = new AbortController();
-//       controller.signal.onabort = () => {
+//       controller.signal.onabort = function() {
 //         done('PASS');
 //       };
 //       controller.abort();
@@ -228,7 +228,7 @@ describe('basic tests', () => {
 //     expect(getJSErrors().length).toBe(0);
 //   });
 
-//   it('fetch from web worker works', () => {
+//   it('fetch from web worker works', function() {
 //     // Need to load from webserver because worker because security policy
 //     // prevents file:// pages from "loading arbitrary .js files" as workers.
 //     const server = http.createServer((req, res) => {
@@ -246,7 +246,7 @@ describe('basic tests', () => {
 
 //     browser.url(`http://127.0.0.1:${boundListenPort}`);
 //     const res = browser.executeAsync(async (done) => {
-//       setTimeout(() => {
+//       setTimeout(function() {
 //         done('FAIL');
 //       }, 2000);
 //       const worker = new Worker('web-worker.js');
@@ -261,7 +261,7 @@ describe('basic tests', () => {
 //     server.close();
 //   });
 
-//   it('toString() output', () => {
+//   it('toString() output', function() {
 //     browser.url(TESTPAGE_URL);
 
 //     let res;
