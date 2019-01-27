@@ -20,8 +20,7 @@
     "install": {
         "module": "abortcontroller-polyfill",
         "paths": [
-            "dist",
-            "umd-polyfill.js"
+            "dist/umd-polyfill.js"
         ]
     }
 }
