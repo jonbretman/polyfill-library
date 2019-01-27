@@ -12,7 +12,15 @@
         "firefox_mob": "<64",
         "android": "<67"
     },
-    "dependencies": [],
+    "dependencies": [
+        "fetch",
+        "Object.defineProperty",
+        "Object.getOwnPropertyDescriptor",
+        "Object.getPrototypeOf",
+        "Object.setPrototypeOf",
+        "Event",
+        "Symbol"
+    ],
     "license": "Apache-2.0",
     "spec": "https://dom.spec.whatwg.org/#interface-abortcontroller",
     "repo": "https://github.com/mo/abortcontroller-polyfill",
