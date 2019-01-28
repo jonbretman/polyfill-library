@@ -20,16 +20,16 @@ it('is not enumerable', function () {
 describe('basic tests', function () {
 
     it('AbortSignal constructor', function () {
-        const signal = new AbortSignal();
+        var signal = new AbortSignal();
         proclaim.isFalse(signal.aborted);
         proclaim.isNull(signal.onabort);
     });
 
     it('Request is patched', function () {
-        const controller = new AbortController();
-        const signal = controller.signal;
-        let request = new Request('/', {
-            signal
+        var controller = new AbortController();
+        var signal = controller.signal;
+        var request = new Request('/', {
+            signal: signal
         });
         proclaim.deepStrictEqual(request.signal, signal);
         proclaim.isTrue(Request.prototype.isPrototypeOf(request));
@@ -41,13 +41,13 @@ describe('basic tests', function () {
                 name: 'fail'
             });
         }, 2000);
-        const controller = new AbortController();
-        const signal = controller.signal;
+        var controller = new AbortController();
+        var signal = controller.signal;
         setTimeout(function () {
             controller.abort();
         }, 500);
         fetch('https://httpstat.us/200?sleep=1000', {
-            signal
+            signal: signal
         }).then(function () {
             proclaim.isUndefined('Abort during fetch failed.');
         }, function (err) {
@@ -62,13 +62,13 @@ describe('basic tests', function () {
                 name: 'fail'
             });
         }, 2000);
-        const controller = new AbortController();
-        const signal = controller.signal;
+        var controller = new AbortController();
+        var signal = controller.signal;
         setTimeout(function () {
             controller.abort();
         }, 500);
-        let request = new Request('http://httpstat.us/200?sleep=1000', {
-            signal
+        var request = new Request('http://httpstat.us/200?sleep=1000', {
+            signal: signal
         });
         fetch(request).then(function () {
             proclaim.isUndefined('abort during fetch when Request has signal failed');
@@ -83,11 +83,11 @@ describe('basic tests', function () {
                 name: 'fail'
             });
         }, 2000);
-        const controller = new AbortController();
+        var controller = new AbortController();
         controller.abort();
-        const signal = controller.signal;
+        var signal = controller.signal;
         fetch('http://httpstat.us/200?sleep=1000', {
-            signal
+            signal: signal
         }).then(function () {
             proclaim.isUndefined('abort before fetch started failed');
         }, function (err) {
@@ -96,18 +96,18 @@ describe('basic tests', function () {
     });
 
     //   it('abort before fetch started, verify no HTTP request is made', function() {
-    //     const server = http.createServer((req, res) => {
+    //     var server = http.createServer((req, res) => {
     //       fail('fetch() made an HTTP request despite pre-aborted signal');
     //     }).listen(0);
-    //     const boundListenPort = server.address().port;
+    //     var boundListenPort = server.address().port;
     //     browser.url(TESTPAGE_URL);
-    //     const res = browser.executeAsync(async (boundListenPort, done) => {
+    //     var res = browser.executeAsync(async (boundListenPort, done) => {
     //       setTimeout(function() {
     //         done({name: 'fail'});
     //       }, 2000);
-    //       const controller = new AbortController();
+    //       var controller = new AbortController();
     //       controller.abort();
-    //       const signal = controller.signal;
+    //       var signal = controller.signal;
     //       try {
     //         await fetch(`http://127.0.0.1:${boundListenPort}`, {signal});
     //         done({name: 'fail'});
@@ -115,7 +115,7 @@ describe('basic tests', function () {
     //         done(err);
     //       }
     //     }, boundListenPort);
-    //     const err = res.value;
+    //     var err = res.value;
     //     expect(err.name).toBe('AbortError');
     //     expect(getJSErrors().length).toBe(0);
     //     server.close();
@@ -127,10 +127,10 @@ describe('basic tests', function () {
                 name: 'fail'
             });
         }, 2000);
-        const controller = new AbortController();
-        const signal = controller.signal;
+        var controller = new AbortController();
+        var signal = controller.signal;
         fetch('http://httpstat.us/200?sleep=50', {
-            signal
+            signal: signal
         }).then(function () {
             done();
         }, function (err) {
@@ -158,7 +158,7 @@ describe('basic tests', function () {
                 name: 'fail'
             });
         }, 2000);
-        const controller = new AbortController();
+        var controller = new AbortController();
         controller.signal.addEventListener('abort', function () {
             done();
         });
@@ -169,7 +169,7 @@ describe('basic tests', function () {
         setTimeout(function () {
             done('FAIL');
         }, 2000);
-        const controller = new AbortController();
+        var controller = new AbortController();
         controller.signal.addEventListener('abort', function () {
             if (controller.signal.aborted === true) {
                 done();
@@ -187,8 +187,8 @@ describe('basic tests', function () {
         setTimeout(function () {
             done();
         }, 200);
-        const controller = new AbortController();
-        const handlerFunc = function () {
+        var controller = new AbortController();
+        var handlerFunc = function () {
             done('FAIL');
         };
         controller.signal.addEventListener('abort', handlerFunc);
@@ -200,7 +200,7 @@ describe('basic tests', function () {
         setTimeout(function () {
             done('FAIL');
         }, 200);
-        const controller = new AbortController();
+        var controller = new AbortController();
         controller.signal.onabort = function () {
             done();
         };
@@ -210,7 +210,7 @@ describe('basic tests', function () {
     //   it('fetch from web worker works', function() {
     //     // Need to load from webserver because worker because security policy
     //     // prevents file:// pages from "loading arbitrary .js files" as workers.
-    //     const server = http.createServer((req, res) => {
+    //     var server = http.createServer((req, res) => {
     //       if (req.url === '/') {
     //         // No need to load polyfill in main JS context, we're only gonna run it
     //         // inside the worker only
@@ -221,17 +221,17 @@ describe('basic tests', function () {
     //         res.end(fs.readFileSync(path.join(__dirname, 'web-worker.js')));
     //       }
     //     }).listen(0);
-    //     const boundListenPort = server.address().port;
+    //     var boundListenPort = server.address().port;
 
     //     browser.url(`http://127.0.0.1:${boundListenPort}`);
-    //     const res = browser.executeAsync(async (done) => {
+    //     var res = browser.executeAsync(async (done) => {
     //       setTimeout(function() {
     //         done('FAIL');
     //       }, 2000);
-    //       const worker = new Worker('web-worker.js');
+    //       var worker = new Worker('web-worker.js');
     //       worker.postMessage('run-test');
     //       worker.onmessage = (ev) => {
-    //         const result = ev.data;
+    //         var result = ev.data;
     //         done(result);
     //       };
     //     });
