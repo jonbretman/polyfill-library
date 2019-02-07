@@ -1,6 +1,7 @@
 /* global CreateMethodProperty, ToObject, ToLength, Get, ToInteger, ArraySpeciesCreate, FlattenIntoArray */
 // 22.1.3.10 Array.prototype.flat( [ depth ] )
 CreateMethodProperty(Array.prototype, 'flat', function flat() {
+    "use strict";
     var depth = arguments[0];
     // 1. Let O be ? ToObject(this value).
     var O = ToObject(this);
