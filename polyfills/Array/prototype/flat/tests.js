@@ -1,6 +1,12 @@
 /* eslint-env mocha */
 /* globals proclaim, Symbol */
 
+var supportsStrictModeTests = (function () {
+    'use strict';
+
+    return this === undefined;
+}).call(undefined);
+
 it('is a function', function () {
     proclaim.isFunction(Array.prototype.flat);
 });
@@ -43,21 +49,23 @@ it('throws a TypeError if constructor property is neither undefined nor an Objec
     }, TypeError);
 });
 
-it('throws TypeError if thisArg is null', function () {
-    proclaim.throws(function () {
-        [].flat.call(null);
-    }, TypeError);
-});
-it('throws TypeError if thisArg is missing', function () {
-    proclaim.throws(function () {
-        [].flat.call();
-    }, TypeError);
-});
-it('throws TypeError if thisArg is undefined', function () {
-    proclaim.throws(function () {
-        [].flat.call(undefined);
-    }, TypeError);
-});
+if (supportsStrictModeTests) {
+    it('throws TypeError if thisArg is null', function () {
+        proclaim.throws(function () {
+            [].flat.call(null);
+        }, TypeError);
+    });
+    it('throws TypeError if thisArg is missing', function () {
+        proclaim.throws(function () {
+            [].flat.call();
+        }, TypeError);
+    });
+    it('throws TypeError if thisArg is undefined', function () {
+        proclaim.throws(function () {
+            [].flat.call(undefined);
+        }, TypeError);
+    });
+}
 if ('Symbol' in self) {
     it('throws TypeError if argument is a Symbol', function () {
         proclaim.throws(function () {
